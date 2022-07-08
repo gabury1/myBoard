@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{layout}">
+    <div layout:fragment="content">
+
+        <br><br>
+        <form id="signupform" class="form-horizontal border"  style="padding: 30px; margin: auto; width: 400px; height: 500px;">
+            <h2>Sign Up<br></h2>
+
+            <div class="row">
+                <label>ID </label>
+                <input type="text" id="id" name="id" class="form-control" placeholder="ID(6~25 글자)" onfocus="" onblur="ID(6~25 글자)">&nbsp;&nbsp;&nbsp;
+            </div>
+
+            <div class="row">
+                <label>PW </label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="PW(6~25 글자)" onfocus="" onblur="PW(6~25 글자)">
+            </div>
+
+            <br>
+            <div class="row">
+                <label>Name </label>
+                <input type="text" id="name" name="name" class="form-control"  placeholder="PW(2~25 글자)" onfocus="" onblur="PW(2~25 글자)"><br>
+            </div>
+            <br>
+
+            <div class="row">
+                <div id="warn" class="text-bg-danger p-3">다시 한번 확인해주세요!</div>
+            </div>
+
+            <br><br><br>
+            <button type="button" onclick="Check()" class="btn btn-primary">확인</button>
+            <a class="btn btn-warning" href="/User/Signup">취소</a>
+
+        </form>
+
+        <script src="/js/Check.js"></script>
+        <script>
+            $("#warn").hide();
+
+        </script>
+
+    </div>
+</html>

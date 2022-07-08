@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+
+  <br><br>
+  <form id="loginform" class="form-horizontal border"  style="padding: 30px; margin: auto; width: 400px; height: 500px;">
+    <h2>Login<br></h2>
+
+    <div class="row">
+      <label>ID </label>
+      <input type="text" id="id" name="id" class="form-control">&nbsp;&nbsp;&nbsp;
+    </div>
+
+    <div class="row">
+      <label>PW </label>
+      <input type="password" id="password" name="password" class="form-control">
+    </div>
+
+    <br>
+    <div class="row">
+      <div id="warn" class="text-bg-danger p-3">사용자ID 또는 비밀번호를 확인해 주세요.</div>
+    </div>
+
+    <br><br><br>
+    <Button type="button" onclick="Login()"  class="btn btn-primary">확인</Button>
+    <a class="btn btn-warning" href="/User/Login">취소</a>
+
+  </form>
+  <script src="/js/Login.js"></script>
+  <script>
+            $("#warn").hide();
+
+  </script>
+
+</div>
+</html>
