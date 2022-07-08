@@ -1,5 +1,5 @@
 
-var mode = ""; // 전체글/개념글
+var mode = ""; // 추천 수 (0/10)
 var key = ""; // 어떤 주제로 검색?
 var keyword = ""; // 어떤 문자열로 검색?
 var page = 0; // 현재 몇 페이지?
@@ -13,10 +13,7 @@ function Search()
             url : "/Board/getBoardList",
             data:{"mode" : this.mode, "key" :  this.key  , "keyword" : this.keyword , "page" :  this.page },
             method : "GET",
-            success : function( boardlist )
-            {
-                alert( boardlist );
-            },
+            success : success,
             error :
             function(e)
             {
@@ -59,20 +56,21 @@ function pageChange(pPage)
 
 function success(boardlist)
 {
-                 let html = '<tr> <th width="10%">no</th><th width="50%">content</th><th width="40%">name</th></tr>';
+                 let html = '<thead class="table-dark"> <th width="10%">no</th><th width="50%">content</th><th width="40%">name</th></thead>';
 
                 if( boardlist.data.length == 0 ){ // 검색 결과가 존재하지 않으면
                           html +=
                                 '<tr>'+
                                         '<td colspan="5">No result</td> '+
                                  '</tr>';
-                }else{
+                }
+                else{
                         for( let i = 0 ; i<boardlist.data.length ; i++ ){
                             html +=
                                     '<tr>'+
-                                            '<td>'+boardlist.data[i].bno+'</td> '+
-                                            '<td>'+boardlist.data[i].bcontent+'</td> '+
-                                            '<td>'+boardlist.data[i].whoqwe+'</td>'+
+                                            '<td>'+boardlist.data[i].boardNo+'</td> '+
+                                            '<td>'+boardlist.data[i].content+'</td> '+
+                                            '<td>'+boardlist.data[i].writer+'</td>'+
                                      '</tr>';
                         }
                  }
@@ -82,12 +80,12 @@ function success(boardlist)
                  if( page == 0 ){   // 현재 페이지가 첫페이지 이면
                         pagehtml +=
                          '<li class="page-item"> '+
-                                     '<button class="page-link" onclick="board_list('+ (page)  +')"> 이전 </button>'+  // 검색 없음
+                                     '<button class="page-link" onclick="pageChange('+ (page)  +')"> 이전 </button>'+  // 검색 없음
                           '</li>';
                  }else{  // 현재 페이지가 첫페이지가 아니면
                      pagehtml +=
                         '<li class="page-item"> '+
-                                    '<button class="page-link" onclick="board_list('+ (page-1)  +')"> 이전 </button>'+  // 검색 없음
+                                    '<button class="page-link" onclick="pageChange('+ (page-1)  +')"> 이전 </button>'+  // 검색 없음
                          '</li>';
                   }
                  ////////////////////////////////////////////  ////////////////////////////////// ////////////////////////////////////////////////
@@ -95,7 +93,7 @@ function success(boardlist)
                  for( let i = boardlist.startbtn ; i<=boardlist.endhtn ; i++ ){
                     pagehtml +=
                           '<li class="page-item"> '+
-                            '<button class="page-link" onclick="board_list('+(i-1)+')"> '+i+' </button>'+  // 검색 없음
+                            '<button class="page-link" onclick="pageChange('+(i-1)+')"> '+i+' </button>'+  // 검색 없음
                           '</li>';
                  }
                 ///////////////////////////////////////// ///////////////////////////////////////  //////////////////////////////////////////
@@ -115,8 +113,9 @@ function success(boardlist)
                 ////////////////////////////////////////////  ////////////// ////////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                $("#boardtable").html( html ); // 테이블에 html  넣기
-                $("#pagebtnbox").html( pagehtml); // 페이징버튼 html 넣기
+                alert(html);
+                $("#BoardTable").html( html ); // 테이블에 html  넣기
+                $("#PageBtnBox").html( pagehtml); // 페이징버튼 html 넣기
 
 
 }
