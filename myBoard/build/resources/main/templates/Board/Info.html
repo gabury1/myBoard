@@ -15,33 +15,61 @@
         </div>
 
         <div class="row">
-            <button id="issue" onclick="modeChange(10)" class="btn btn-danger col-1">개념글</button>
-            <button id="all" onclick="modeChange(0)" class="btn btn-secondary col-1">전체글</button>
+            <div id="title" class="form-control" style="text-align: left; height: 50px;"></div>
+        </div>
+
+        <div style="background: #efe9e9" class="row">
+            <div id="name" class="col-2">장은수</div>
             <div class="col"></div>
-            <button class="btn btn-success col-1">글쓰기</button>
+            <div id="etc" class="col">추천 1400  |  조회수 21321  |  작성일 2020.11.23 11:30:22</div>
         </div>
+        <div id="content" class="form-control" style="min-height: 400px; padding: 70px; text-align: left; border-style: solid; border-width: 1px;">
 
-        <div class="row" >
-            <table id="BoardTable" class="col table" style="min-height: 100px; background-color: #FFFFFF;">
+        </div>
+            <button id="likes" th:onclick="|like(${session.userNo})|" class="btn btn-primary" style="width: 70px; height: 70px;" th:if = "${ session.userNo != null }"> 추천 </button>
+            <button id="likes"  class="btn btn-primary" style="width: 70px; height: 70px;" th:if = "${ session.userNo == null }"> 추천 </button>
+        <div id="coment">
 
-            </table>
-        </div>
-        <div class="row">
-            <div class="col-4"></div><div id="PageBtnBox" class="pagination justify-content-center col-4"></div><div class="col"></div>
-        </div>
-        <div class="row">
-            <div class="col"></div>
-            <select id="key" class="col-2 ">
-                <option value="title">글 제목</option>
-                <option value="content">글 내용</option>
-                <option value="no">글 번호</option>
-                <option value="userName">글쓴이</option>
-            </select>
-            <input type="text" id="keyword" class="col-3">
-            <button class="col-1 btn btn-primary" onclick="keyChange()">검색</button>
 
         </div>
 
+    </div>
 
+    <script src="/js/GetBoardInfo.js"></script>
+    <script>
+        Search();
+
+        function like(no)
+        {
+            var userNo = no;
+            var boardNo = getNo();
+
+             // 글 정보를 받아서 뿌려준다.
+            $.ajax({
+            url : "/Board/Like",
+            data:{ "writerNo" : userNo, "boardNo" :  boardNo },
+            method : "GET",
+            success : 
+            function (json)
+            {
+
+                if(json.flag == "success")
+                {
+                    $("#likes").text("추천" + json.likes);
+                }
+                else alert(json.flag);
+
+            },
+            error :
+            function(e)
+            {
+                alert(e.responseText);
+            }
+            });
+
+        }
+
+
+    </script>
 </div>
 </html>

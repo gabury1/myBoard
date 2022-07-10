@@ -6,6 +6,7 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Date;
 
 /*
@@ -41,8 +42,33 @@ public class BoardEntity
     // 좋아요와 조회수
     private int likes;
     private int views;
+    private String likers; // 중복 좋아요 방지
 
     @ManyToOne(cascade = CascadeType.DETACH) // 외래 키에 해당하는 것. 작성자 하나(one) 당 여러 개(many)의 게시물을 올릴 수 있음.
     @Nullable
     private UserEntity writer;
+
+    // 조회수를 올려준다. 조회수는 중복해서 올릴 수 있음.
+    public int addViews()
+    {
+        views++;
+        return views;
+    }
+
+    // 추천수를 올려준다. 만약, 이미 추천했다면(식별자:유저번호) 추천에 실패한다.
+    public boolean addLikes(int liker)
+    {
+        String str = Integer.toString(liker);
+        if(likers == null) likers = new String();   // 추천을 누른 사람이 없다면, 배열을 따로 만들어준다.
+
+        // 문자열 비교는 꼭 .equals로 해라..
+        if(Arrays.stream(likers.split("|")).anyMatch(s->s.equals(str))) return false;
+        else
+        {
+            likers += "|" + str;
+            likes++;
+            return true;
+        }
+    }
+
 }

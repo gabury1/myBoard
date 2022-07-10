@@ -39,7 +39,8 @@ public class BoardService
         return true;
     }
 
-    public String Search(int page, int mode, String key, String keyword)
+    // 게시물을 조회한다.
+    public JSONObject Search(int page, int mode, String key, String keyword)
     {
         JSONObject object = new JSONObject();
         // 페이징 시작
@@ -80,8 +81,64 @@ public class BoardService
         object.put( "totalpages" , result.getTotalPages() );  // 전체 페이지 수
         object.put( "data" , jsonArray );  // 리스트를 추가
 
-       return object.toString();
+       return object;
     }
 
+    // 게시물의 상세 정보를 열람한다.
+    public JSONObject BoardInfo(int boardNo)
+    {
+        JSONObject object = new JSONObject();
+
+        // 번호로 불러오기
+        BoardEntity b = boardRepository.findByBoardNo(boardNo);
+
+        // 만약 게시물이 조회되지 않았다면 false를 반환
+        if(b != null) {
+            object.put("flag", "true");
+        }
+        else
+        {
+            object.put("flag", "false");
+            return object;
+        }
+
+        // JSON 오브젝트에 정보를 담아주는 단계
+        object.put("title", b.getTitle());
+        object.put("content", b.getContent());
+        object.put("likes", b.getLikes());
+        object.put("views", b.getViews());
+        object.put("dateTime", b.getDateTime());
+        object.put("writer", b.getWriter().getName());
+
+        // 코멘트는 조금 더 설계 후 제대로 사용할 예정.
+        // 가공해서 JSON 배열로 프론트에 전달할 예정. 당장에는 사용X
+        //object.put("coments", b.getComents());
+
+        b.addViews(); // 열람했으니, 조회수를 1 올려준다.
+        boardRepository.save(b); // 조회수 저장
+
+        return object;
+    }
+
+    // 게시물의 추천 수를 늘려준다.
+    public JSONObject BoardLike(int writerNo, int boardNo)
+    {
+        BoardEntity b = boardRepository.findByBoardNo(boardNo);
+
+        JSONObject object = new JSONObject();
+
+        if(b.addLikes(writerNo))
+        {
+            object.put("likes", b.getLikes());
+            object.put("flag", "success");
+            boardRepository.save(b);
+        }
+        else
+        {
+            object.put("flag", "이미 추천했습니다.");
+        }
+
+        return object;
+    }
 }
 
