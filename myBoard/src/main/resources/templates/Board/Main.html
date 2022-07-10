@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 
 <html layout:decorate="~{layout}">
-<div align="center" layout:fragment="content">
 
+<div align="center" layout:fragment="content">
 
     <div style="width: 1000px; border-style: solid; border-width: 2px; ">
         <div class="row" style="height: 100px;">
@@ -22,12 +22,12 @@
         </div>
 
         <div class="row" >
-            <table id="BoardTable" class="col table" style="min-height: 100px; background-color: #E2E2E2;">
+            <table id="BoardTable" class="col table" style="min-height: 100px; background-color: #FFFFFF;">
 
             </table>
         </div>
         <div class="row">
-            <div class="col-4"></div><div id="PageBtnBox" class="col-4"></div><div class="col"></div>
+            <div class="col-4"></div><div id="PageBtnBox" class="pagination justify-content-center col-4"></div><div class="col"></div>
         </div>
         <div class="row">
             <div class="col"></div>
@@ -38,12 +38,15 @@
                 <option value="userName">글쓴이</option>
             </select>
             <input type="text" id="keyword" class="col-3">
-            <button class="col-1 btn btn-primary">검색</button>
+            <button class="col-1 btn btn-primary" onclick="keyChange()">검색</button>
 
         </div>
 
     </div>
     <script src="/js/LoadBoard.js"></script>
+    <script>
+        modeChange(0);
+    </script>
 
 </div>
 </html>

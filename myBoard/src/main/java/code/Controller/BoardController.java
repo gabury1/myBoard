@@ -34,8 +34,7 @@ public class BoardController
     {
 
         try
-        {   //boardService.Search(page, mode, key, keyword)
-            //key + keyword + page + mode
+        {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json");
             response.getWriter().println(boardService.Search(page, mode, key, keyword));

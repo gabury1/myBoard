@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{layout}">
+
+<div align="center" layout:fragment="content">
+
+    <div style="width: 1000px; border-style: solid; border-width: 2px; ">
+        <div class="row" style="height: 100px;">
+
+            <h3 class="col">[ 게시판 ]</h3>
+
+        </div>
+        <div class="row">
+            <img src="/image/MainPhoto.png">
+        </div>
+
+        <div class="row">
+            <button id="issue" onclick="modeChange(10)" class="btn btn-danger col-1">개념글</button>
+            <button id="all" onclick="modeChange(0)" class="btn btn-secondary col-1">전체글</button>
+            <div class="col"></div>
+            <button class="btn btn-success col-1">글쓰기</button>
+        </div>
+
+        <div class="row" >
+            <table id="BoardTable" class="col table" style="min-height: 100px; background-color: #FFFFFF;">
+
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-4"></div><div id="PageBtnBox" class="pagination justify-content-center col-4"></div><div class="col"></div>
+        </div>
+        <div class="row">
+            <div class="col"></div>
+            <select id="key" class="col-2 ">
+                <option value="title">글 제목</option>
+                <option value="content">글 내용</option>
+                <option value="no">글 번호</option>
+                <option value="userName">글쓴이</option>
+            </select>
+            <input type="text" id="keyword" class="col-3">
+            <button class="col-1 btn btn-primary" onclick="keyChange()">검색</button>
+
+        </div>
+
+
+</div>
+</html>

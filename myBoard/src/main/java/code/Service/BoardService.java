@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -37,32 +38,6 @@ public class BoardService
 
         return true;
     }
-    public String test()
-    {
-        JSONObject object = new JSONObject();
-
-        Pageable pageable = PageRequest.of(0, 20,  Sort.by(Sort.Direction.DESC,"board_no"));
-        Page<BoardEntity> result = null;
-
-        result = boardRepository.findByTitle(pageable, "", 0);
-
-        // JSON에 페이지 정보를 입력
-        JSONArray jsonArray = new JSONArray();
-        for(BoardEntity entity : result ){
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("boardNo", entity.getBoardNo());
-            jsonObject.put("title", entity.getTitle());
-            jsonObject.put("likes", entity.getLikes());
-            jsonObject.put("views", entity.getViews());
-            jsonObject.put("dataTime", entity.getDateTime());
-            jsonObject.put("writer", entity.getWriter().getName());
-
-            jsonArray.put(jsonObject);
-        }
-        object.put( "data" , jsonArray );  // 리스트를 추가
-        return object.toString();
-    }
-
 
     public String Search(int page, int mode, String key, String keyword)
     {
@@ -94,7 +69,7 @@ public class BoardService
             jsonObject.put("title", entity.getTitle());
             jsonObject.put("likes", entity.getLikes());
             jsonObject.put("views", entity.getViews());
-            jsonObject.put("dataTime", entity.getDateTime());
+            jsonObject.put("dateTime", entity.getDateTime());
             jsonObject.put("writer", entity.getWriter().getName());
 
             jsonArray.put(jsonObject);
