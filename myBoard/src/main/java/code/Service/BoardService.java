@@ -26,6 +26,7 @@ public class BoardService
     @Autowired
     final BoardRepository boardRepository;
 
+    // 게시물 생성
     public boolean Create(BoardEntity board)
     {
         LocalDateTime now = LocalDateTime.now();
@@ -102,6 +103,9 @@ public class BoardService
             return object;
         }
 
+        b.addViews(); // 열람했으니, 조회수를 1 올려준다.
+        boardRepository.save(b); // 조회수 저장
+
         // JSON 오브젝트에 정보를 담아주는 단계
         object.put("title", b.getTitle());
         object.put("content", b.getContent());
@@ -114,9 +118,6 @@ public class BoardService
         // 가공해서 JSON 배열로 프론트에 전달할 예정. 당장에는 사용X
         //object.put("coments", b.getComents());
 
-        b.addViews(); // 열람했으니, 조회수를 1 올려준다.
-        boardRepository.save(b); // 조회수 저장
-
         return object;
     }
 
@@ -128,13 +129,13 @@ public class BoardService
         JSONObject object = new JSONObject();
 
         if(b.addLikes(writerNo))
-        {
+        {   //flag(성공 여부), likes(추천 수)
             object.put("likes", b.getLikes());
             object.put("flag", "success");
             boardRepository.save(b);
         }
         else
-        {
+        {   // 이미 추천했다면 flag에 메시지를 담아 보내자.
             object.put("flag", "이미 추천했습니다.");
         }
 

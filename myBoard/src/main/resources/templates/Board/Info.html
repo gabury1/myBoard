@@ -23,11 +23,11 @@
             <div class="col"></div>
             <div id="etc" class="col">추천 1400  |  조회수 21321  |  작성일 2020.11.23 11:30:22</div>
         </div>
-        <div id="content" class="form-control" style="min-height: 400px; padding: 70px; text-align: left; border-style: solid; border-width: 1px;">
+        <div id="content" class="form-control" style="min-height: 400px; padding: 30px; text-align: left; border-style: solid; border-width: 1px;">
 
         </div>
             <button id="likes" th:onclick="|like(${session.userNo})|" class="btn btn-primary" style="width: 70px; height: 70px;" th:if = "${ session.userNo != null }"> 추천 </button>
-            <button id="likes"  class="btn btn-primary" style="width: 70px; height: 70px;" th:if = "${ session.userNo == null }"> 추천 </button>
+            <button id="likes" th:onclick="alert('먼저 로그인 해주세요.')" class="btn btn-primary" style="width: 70px; height: 70px;" th:if = "${ session.userNo == null }"> 추천 </button>
         <div id="coment">
 
 
@@ -44,7 +44,7 @@
             var userNo = no;
             var boardNo = getNo();
 
-             // 글 정보를 받아서 뿌려준다.
+             // '좋아요' 송신
             $.ajax({
             url : "/Board/Like",
             data:{ "writerNo" : userNo, "boardNo" :  boardNo },
@@ -55,7 +55,7 @@
 
                 if(json.flag == "success")
                 {
-                    $("#likes").text("추천" + json.likes);
+                    $("#likes").text("추천 " + json.likes);
                 }
                 else alert(json.flag);
 

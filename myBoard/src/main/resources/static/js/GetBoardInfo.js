@@ -28,7 +28,7 @@ function success(info)
     var etc = "추천 " + info.likes + "  |  " + "조회수 " + info.views + "  |  " + "작성일 " + info.dateTime;
 
     $("#etc").html(etc);
-    $("#likes").html("추천" + info.likes);
+    $("#likes").html("추천 " + info.likes);
 
 }
 

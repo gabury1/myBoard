@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
@@ -20,7 +22,11 @@ public class BoardDTO
     private String dateTime;
 
     // 제목과 내용, 댓글
+    @Size(min = 0, max = 50)
+    @NotEmpty(message = "제목을 확인해주세요.")
     private String title;
+
+    @NotEmpty(message = "내용을 확인해주세요.")
     private String content;
     private String coments;
 

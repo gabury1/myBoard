@@ -50,6 +50,7 @@ public class UserController {
                 return "비밀번호를 확인하세요.";
             if(user.getName().length() < 2 || 25 < user.getName().length())
                 return "이름을 확인하세요";
+            // return response.invalidFields(common.refineErrors(errors)); << 활용해보기
         }
 
         //

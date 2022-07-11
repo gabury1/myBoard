@@ -61,11 +61,12 @@ public class BoardEntity
         String str = Integer.toString(liker);
         if(likers == null) likers = new String();   // 추천을 누른 사람이 없다면, 배열을 따로 만들어준다.
 
-        // 문자열 비교는 꼭 .equals로 해라..
-        if(Arrays.stream(likers.split("|")).anyMatch(s->s.equals(str))) return false;
+        // 하나라도 문자열이 같다면 false 반환.
+        if(Arrays.stream(likers.split("|")).anyMatch(s->s.equals(str))) //문자열 비교는 꼭 .equals()로 해라..
+            return false;
         else
         {
-            likers += "|" + str;
+            likers += str + "|";
             likes++;
             return true;
         }

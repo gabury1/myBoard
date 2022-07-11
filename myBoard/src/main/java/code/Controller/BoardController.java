@@ -1,15 +1,21 @@
 package code.Controller;
 
+import code.DTO.BoardDTO;
 import code.Domain.Board.BoardRepository;
 import code.Service.BoardService;
+import code.Service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @RequiredArgsConstructor
 @Controller
@@ -18,6 +24,8 @@ public class BoardController
 {
     @Autowired
     final BoardService boardService;
+    @Autowired
+    final SecurityService securityService;
 
     @RequestMapping("/Main")
     public String boardmain()
@@ -82,6 +90,29 @@ public class BoardController
 
     }
 
+    @RequestMapping("/Write")
+    public String write()
+    {
+        if(!securityService.isLogin()) return "/Board/Main";
+        return "/Board/Write";
+    }
+
+    @GetMapping("/Post")
+    @ResponseBody
+    public String write(@Valid BoardDTO boardDTO, BindingResult errors)
+    {
+
+        if (errors.hasErrors()) {
+            if (boardDTO.getContent().length() <= 0) return "내용을 확인해주세요.";
+            if (boardDTO.getTitle().length() <= 0 || 50 < boardDTO.getTitle().length()) return "제목을 확인해주세요.";
+            //return response.invalidFields(common.refineErrors(errors));
+        }
+
+        boardService.Create(boardDTO.toEntity());
+
+        return "success";
+
+    }
 
     @RequestMapping("/Test")
     @ResponseBody

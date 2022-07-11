@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{layout}">
+
+<div align="center" layout:fragment="content">
+
+    <div style="width: 1000px; border-style: solid; border-width: 2px; ">
+        <div class="row" style="height: 100px;">
+
+            <h3 class="col">[ 게시판 ]</h3>
+
+        </div>
+        <div class="row">
+            <img onclick="test()" src="/image/MainPhoto.png">
+        </div>
+
+        <div class="row">
+            <input type="text" id="title" class="form-control" style="text-align: left; height: 50px;">
+        </div>
+        <div class="form-group" style="text-align: left;">
+            <div id="content" style="min-height: 400px; text-align: left; ">
+
+            </div>
+        </div>
+        <div style="text-align: right;">
+                <button th:onclick="|writeBoard(${session.userNo})|"   class="btn btn-primary">글 쓰기</button>
+
+        </div>
+    </div>
+
+    <script src="/js/WriteBoard.js"> </script>
+    <script>
+
+          //Quill 설정
+            let toolbarOptions = [
+          ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+          ['blockquote', 'code-block'],
+
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+          [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+          [{ 'direction': 'rtl' }],                         // text direction
+
+          [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+          [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+          [{ 'font': [] }],
+          [{ 'align': [] }],
+
+          ['clean']                                         // remove formatting button
+        ];
+
+        var quill = new Quill('#content', {
+          modules: { toolbar: toolbarOptions },
+          theme: 'snow'
+        });
+    </script>
+
+</div>
+</html>
