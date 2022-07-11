@@ -101,14 +101,18 @@ public class BoardController
     @ResponseBody
     public String write(@Valid BoardDTO boardDTO, BindingResult errors)
     {
-
         if (errors.hasErrors()) {
-            if (boardDTO.getContent().length() <= 0) return "내용을 확인해주세요.";
             if (boardDTO.getTitle().length() <= 0 || 50 < boardDTO.getTitle().length()) return "제목을 확인해주세요.";
+            if (boardDTO.getContent().length() <= 0) return "내용을 확인해주세요.";
             //return response.invalidFields(common.refineErrors(errors));
         }
+        try
+        {
+            boardService.Create(boardDTO.toEntity());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
-        boardService.Create(boardDTO.toEntity());
 
         return "success";
 

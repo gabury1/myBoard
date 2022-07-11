@@ -36,6 +36,7 @@ public class BoardEntity
 
     // 제목과 내용, 댓글
     private String title;
+    @Column(length = 5000)
     private String content;
     private String coments;
 
