@@ -26,9 +26,18 @@
         <div id="content" class="form-control" style="min-height: 400px; padding: 30px; text-align: left; border-style: solid; border-width: 1px;">
 
         </div>
-            <button id="likes" th:onclick="|like(${session.userNo})|" class="btn btn-primary" style="width: 70px; height: 70px;" th:if = "${ session.userNo != null }"> 추천 </button>
-            <button id="likes" th:onclick="alert('먼저 로그인 해주세요.')" class="btn btn-primary" style="width: 70px; height: 70px;" th:if = "${ session.userNo == null }"> 추천 </button>
-        <div id="coment">
+        <div class="" style="text-align: middle;">
+            <button id="likes" th:onclick="|like(${session.userNo})|" class="btn btn-primary col-2" style="width: 70px; height: 70px;" th:if = "${ session.userNo != null }"> 추천 </button>
+            <button id="likes" th:onclick="alert('먼저 로그인 해주세요.')" class="btn btn-primary col-2" style="width: 70px; height: 70px;" th:if = "${ session.userNo == null }"> 추천 </button>
+        </div>
+
+        <div id="UD" class="row">
+            <div class="col-10"></div>
+            <a id="update" class="btn btn-warning col-1" > 수정 </a>
+            <a id="delete" class="btn btn-danger col-1" > 삭제 </a>
+        </div>
+
+        <div id="coment" class="row">
 
 
         </div>
@@ -36,8 +45,10 @@
     </div>
 
     <script src="/js/GetBoardInfo.js"></script>
-    <script>
-        Search();
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        Search(/*[[${session.userNo}]]*/);
 
         function like(no)
         {
@@ -69,7 +80,7 @@
 
         }
 
-
+        /*]]>*/
     </script>
 </div>
 </html>

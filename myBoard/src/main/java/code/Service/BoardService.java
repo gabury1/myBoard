@@ -113,6 +113,7 @@ public class BoardService
         object.put("views", b.getViews());
         object.put("dateTime", b.getDateTime());
         object.put("writer", b.getWriter().getName());
+        object.put("writerNo", b.getWriter().getUserNo());
 
         // 코멘트는 조금 더 설계 후 제대로 사용할 예정.
         // 가공해서 JSON 배열로 프론트에 전달할 예정. 당장에는 사용X
@@ -141,5 +142,26 @@ public class BoardService
 
         return object;
     }
+
+    public String Update(int boardNo, String title, String content)
+    {
+        BoardEntity entity = boardRepository.findByBoardNo(boardNo);
+
+        if(entity == null) return "수정할 수 없습니다.";
+
+        entity.setTitle(title);
+        entity.setContent(content);
+
+        try
+        {
+            boardRepository.save(entity);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return "Success";
+    }
+
 }
 

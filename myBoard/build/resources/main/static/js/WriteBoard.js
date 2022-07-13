@@ -8,7 +8,7 @@ function writeBoard(userNo)
 
      // 글 정보를 받아서 뿌려준다.
      $.ajax({
-            url : "/Board/Post",
+            url : "/Board/Create",
             data: data,
             method : "GET",
             success : success,

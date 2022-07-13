@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{layout}">
+
+<div align="center" layout:fragment="content">
+
+  <div style="width: 1000px; border-style: solid; border-width: 2px; ">
+    <div class="row" style="height: 100px;">
+
+      <h3 class="col">[ 게시판 ]</h3>
+
+    </div>
+    <div class="row">
+      <img onclick="test()" src="/image/MainPhoto.png">
+    </div>
+
+    <div class="row">
+      <input type="text" id="title" class="form-control" style="text-align: left; height: 50px;">
+    </div>
+    <div class="form-group" style="text-align: left;">
+      <div id="content" style="min-height: 400px; text-align: left; ">
+
+      </div>
+    </div>
+    <div style="text-align: right;">
+      <button onclick="Update()" class="btn btn-primary">수정하기</button>
+      <a href="/Board/Main" class="btn btn-danger">취소</a>
+    </div>
+  </div>
+  <script src="/css/Quill.js"></script>
+  <script src="/js/ModifyBoard.js"> </script>
+  <script>
+      Load();
+  </script>
+
+
+
+</div>
+</html>

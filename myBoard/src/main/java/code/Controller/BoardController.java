@@ -33,8 +33,8 @@ public class BoardController
         return "/Board/Main";
     }
 
-    // 여기로 오면 어디서든 게시판 리스트를 받아갈 수 있다.
     @GetMapping("/GetBoardList") // 서블릿리스폰스를 사용하는건..? @ResponseBody 와 차이가 있나?
+                                 // 여기로 오면 어디서든 게시판 리스트를 받아갈 수 있다.
     public void BoardListAPI(HttpServletResponse response,
                             @RequestParam("key") String key ,
                             @RequestParam("keyword") String keyword ,
@@ -54,16 +54,16 @@ public class BoardController
         return;
     }
 
-    // 글 상세 정보를 매핑해주는 매서드
-    @RequestMapping("/{boardNo}")
+
+    @RequestMapping("/{boardNo}") // 글 상세 정보를 매핑해주는 매서드
     public String info(@PathVariable("boardNo") int boardNo)
     {
 
         return "/Board/Info";
     }
 
-    // 글 정보를 JSON으로 반환하는 API...? 라고 할 수 있다.
-    @GetMapping("/Info")
+
+    @GetMapping("/Info") // 게시물 번호만 넘겨주면 게시물 정보를 반환해준다.
     public void BoardInfoAPI(HttpServletResponse response, @Param("boardNo") int boardNo)
     {
         try
@@ -76,8 +76,8 @@ public class BoardController
 
     }
 
-    // 글에서 '추천' 버튼을 누르면 AJAX로 추천인 번호를 보내준다.
-    @GetMapping("/Like")
+
+    @GetMapping("/Like") // 글에서 '추천' 버튼을 누르면 AJAX로 추천인 번호를 보내준다.
     public void BoardInfoAPI(HttpServletResponse response, @Param("writerNo") int writerNo, @Param("boardNo") int boardNo)
     {
         try
@@ -90,40 +90,49 @@ public class BoardController
 
     }
 
-    @RequestMapping("/Write")
+    @RequestMapping("/Write") // 글 쓰기 화면
     public String write()
     {
         if(!securityService.isLogin()) return "/Board/Main";
         return "/Board/Write";
     }
 
-    @GetMapping("/Post")
+
+    @RequestMapping("/{boardNo}/Modify") // 수정 매핑
+    public String modify()
+    {
+        if(!securityService.isLogin()) return "/Board/Main";
+
+        return "/Board/Modify";
+    }
+
+
+    @GetMapping("/Create") // 글 쓰고 데이터를 여기로 보냄.
     @ResponseBody
-    public String write(@Valid BoardDTO boardDTO, BindingResult errors)
+    public String Create(@Valid BoardDTO boardDTO, BindingResult errors)
     {
         if (errors.hasErrors()) {
             if (boardDTO.getTitle().length() <= 0 || 50 < boardDTO.getTitle().length()) return "제목을 확인해주세요.";
             if (boardDTO.getContent().length() <= 0) return "내용을 확인해주세요.";
             //return response.invalidFields(common.refineErrors(errors));
         }
-        try
-        {
-            boardService.Create(boardDTO.toEntity());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+
+        boardService.Create(boardDTO.toEntity());
 
 
         return "success";
-
     }
-
-    @RequestMapping("/Test")
-    @ResponseBody
-    public String test()
+    @GetMapping("/Update")
+    @ResponseBody()
+    public String Update(@Valid BoardDTO boardDTO, BindingResult errors)
     {
-        // 테스트용으로 만들었다. 딱히 의미 X
-        return boardService.Search(0, 0, "title", "").toString();
-    }
+        if (errors.hasErrors()) {
+            if (boardDTO.getTitle().length() <= 0 || 50 < boardDTO.getTitle().length()) return "제목을 확인해주세요.";
+            if (boardDTO.getContent().length() <= 0) return "내용을 확인해주세요.";
+            //return response.invalidFields(common.refineErrors(errors));
+        }
 
+        // 바뀐 내용을 전달받아 수정해주고 문자열을 반환한다.
+        return boardService.Update(boardDTO.getBoardNo(), boardDTO.getTitle(), boardDTO.getContent());
+    }
 }
