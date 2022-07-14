@@ -1,4 +1,5 @@
 
+//글 정보를 받아오는 부분
 function Load()
 {
      var boardNo =  getNo();
@@ -12,6 +13,7 @@ function Load()
             {
                 if(info.flag == "false") location.href = "/Board/Main";
 
+                // 제목과 내용을 표시해준다.
                 $("#title").val(info.title);
                 $(".ql-editor").html(info.content);
 
@@ -25,6 +27,7 @@ function Load()
 
 }
 
+// 수정된 정보를 보냄.
 function Update()
 {
     var boardNo =  getNo();
@@ -38,9 +41,9 @@ function Update()
            success :
            function (message)
            {
+                // 성공이라면 해당 상세보기 페이지로 돌아간다.
                 if(message == "Success") location.href = "/Board/" + boardNo;
                 else alert(message);
-
            },
            error :
            function(e)
@@ -48,8 +51,6 @@ function Update()
                alert(e.responseText);
            }
     });
-
-
 }
 
 

@@ -99,9 +99,10 @@ public class BoardController
 
 
     @RequestMapping("/{boardNo}/Modify") // 수정 매핑
-    public String modify()
+    public String modify(@PathVariable("boardNo") int boardNo)
     {
-        if(!securityService.isLogin()) return "/Board/Main";
+        // 자기 글도 아닌데 URL 수정해서 접근할 수 있음. 로그인 확인은 덤이다.
+        if(!securityService.equalsNow(boardNo)) return "/Board/Main";
 
         return "/Board/Modify";
     }
@@ -119,8 +120,7 @@ public class BoardController
 
         boardService.Create(boardDTO.toEntity());
 
-
-        return "success";
+        return "Success";
     }
     @GetMapping("/Update")
     @ResponseBody()
